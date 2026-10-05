@@ -108,7 +108,7 @@
                                 <p class="text-xs text-slate-500 mt-0.5">Tentukan nama produk, target unit hasil produksi, dan strategi penetapan harga.</p>
                             </div>
                             <span class="text-[11px] font-mono bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">
-                                HPP = Total Biaya ÷ Unit
+                                HPP = Total Biaya &divide; Unit
                             </span>
                         </div>
 
@@ -161,10 +161,10 @@
                                     <span id="mFormulaName">Rumus: Markup on Cost</span>
                                 </div>
                                 <div class="font-mono text-[11px] text-slate-700 bg-slate-50 p-2 rounded border border-slate-100" id="mFormulaEquation">
-                                    Harga Jual = HPP per Unit × (1 + (Markup% ÷ 100))
+                                    Harga Jual = HPP per Unit &times; (1 + (Markup% &divide; 100))
                                 </div>
                                 <div class="text-[11px] text-slate-500" id="mFormulaExample">
-                                      <strong>Contoh:</strong> Jika HPP Rp 10.000 dengan Markup 50%, maka Harga Jual = Rp 10.000 × 1.50 = <strong>Rp 15.000</strong> (Laba: Rp 5.000/unit).
+                                      <strong>Contoh:</strong> Jika HPP Rp 10.000 dengan Markup 50%, maka Harga Jual = Rp 10.000 &times; 1.50 = <strong>Rp 15.000</strong> (Laba: Rp 5.000/unit).
                                 </div>
                             </div>
                         </div>
@@ -188,8 +188,8 @@
 
                         <!-- Formula Banner -->
                         <div class="flex items-center justify-between px-3 py-2 bg-teal-50/60 rounded-lg border border-teal-100 text-[11px] text-teal-900">
-                            <span><strong>Rumus:</strong> Subtotal = Kuantitas × Harga Satuan</span>
-                            <span class="text-teal-700 hidden sm:inline">Contoh: 1.2 kg × Rp 180.000 = Rp 216.000</span>
+                            <span><strong>Rumus:</strong> Subtotal = Kuantitas &times; Harga Satuan</span>
+                            <span class="text-teal-700 hidden sm:inline">Contoh: 1.2 kg &times; Rp 180.000 = Rp 216.000</span>
                         </div>
 
                         <div class="overflow-x-auto">
@@ -236,8 +236,8 @@
 
                         <!-- Formula Banner -->
                         <div class="flex items-center justify-between px-3 py-2 bg-blue-50/60 rounded-lg border border-blue-100 text-[11px] text-blue-900">
-                            <span><strong>Rumus:</strong> Subtotal = Jumlah Pekerja × Tarif Upah × Waktu/Unit</span>
-                            <span class="text-blue-700 hidden sm:inline">Contoh: 1 Barista × Rp 20.000 × 4 jam = Rp 80.000</span>
+                            <span><strong>Rumus:</strong> Subtotal = Jumlah Pekerja &times; Tarif Upah &times; Waktu/Unit</span>
+                            <span class="text-blue-700 hidden sm:inline">Contoh: 1 Barista &times; Rp 20.000 &times; 4 jam = Rp 80.000</span>
                         </div>
 
                         <div class="overflow-x-auto">
@@ -284,7 +284,7 @@
 
                         <!-- Formula Banner -->
                         <div class="flex items-center justify-between px-3 py-2 bg-purple-50/60 rounded-lg border border-purple-100 text-[11px] text-purple-900">
-                            <span><strong>Rumus:</strong> Total BOP = ∑ Biaya Listrik + Gas + Sewa + Penyusutan Alat</span>
+                            <span><strong>Rumus:</strong> Total BOP = &sum; Biaya Listrik + Gas + Sewa + Penyusutan Alat</span>
                             <span class="text-purple-700 hidden sm:inline">Contoh: Listrik Rp 30.000 + Sewa Rp 45.000</span>
                         </div>
 
@@ -333,7 +333,7 @@
                         <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 mb-4">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs text-slate-400 font-medium">HARGA POKOK PENJUALAN (HPP) PER UNIT</span>
-                                <span class="text-[10px] text-emerald-300 font-mono bg-slate-700/80 px-1.5 py-0.5 rounded">Total Biaya ÷ Unit</span>
+                                <span class="text-[10px] text-emerald-300 font-mono bg-slate-700/80 px-1.5 py-0.5 rounded">Total Biaya &divide; Unit</span>
                             </div>
                             <div class="text-3xl font-extrabold text-emerald-400 tracking-tight mt-1" id="resHppPerUnit">Rp 0</div>
                             <div class="text-xs text-slate-400 mt-1">Modal bersih yang dikeluarkan untuk memproduksi 1 unit</div>
@@ -386,15 +386,15 @@
                                 <span class="font-semibold text-white" id="resBatchUnits">0 Unit</span>
                             </div>
                             <div class="flex justify-between text-slate-300">
-                                <span>Potensi Total Omset (Harga Jual × Unit):</span>
+                                <span>Potensi Total Omset (Harga Jual &times; Unit):</span>
                                 <span class="font-semibold text-emerald-300" id="resTotalRevenue">Rp 0</span>
                             </div>
                             <div class="flex justify-between text-slate-300">
-                                <span>Potensi Total Laba Bersih (Laba/Unit × Unit):</span>
+                                <span>Potensi Total Laba Bersih (Laba/Unit &times; Unit):</span>
                                 <span class="font-bold text-white text-sm" id="resTotalProfit">Rp 0</span>
                             </div>
                             <div class="flex justify-between text-slate-300">
-                                <span>Net Profit Margin (Laba ÷ Omset × 100%):</span>
+                                <span>Net Profit Margin (Laba &divide; Omset &times; 100%):</span>
                                 <span class="font-semibold text-emerald-400" id="resMarginPercent">0%</span>
                             </div>
                         </div>
@@ -406,7 +406,7 @@
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                                     Titik Impas (Break-Even Point / BEP)
                                 </div>
-                                <span class="text-[10px] text-slate-400 font-mono">BOP ÷ Margin Kontribusi</span>
+                                <span class="text-[10px] text-slate-400 font-mono">BOP &divide; Margin Kontribusi</span>
                             </div>
                             <div class="grid grid-cols-2 gap-2 text-xs">
                                 <div>
@@ -417,7 +417,7 @@
                                 <div>
                                     <span class="text-slate-400 text-[11px]">BEP Rupiah (Omset Balik Modal):</span>
                                     <div class="font-bold text-white text-sm mt-0.5" id="resBepRevenue">Rp 0</div>
-                                    <span class="text-[10px] text-slate-400">BEP Unit × Harga Jual</span>
+                                    <span class="text-[10px] text-slate-400">BEP Unit &times; Harga Jual</span>
                                 </div>
                             </div>
                         </div>
@@ -702,7 +702,7 @@
                         </p>
                         <div class="bg-white p-3 rounded-lg border border-emerald-200 font-mono text-xs text-emerald-800 space-y-1">
                             <div><strong>Total Biaya Produksi</strong> = Bahan Baku + Tenaga Kerja + Overhead (BOP)</div>
-                            <div><strong>HPP per Unit</strong> = Total Biaya Produksi ÷ Jumlah Unit Dihasilkan</div>
+                            <div><strong>HPP per Unit</strong> = Total Biaya Produksi &divide; Jumlah Unit Dihasilkan</div>
                         </div>
                         <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
                             <li><strong>Bahan Baku:</strong> bahan habis pakai untuk produk (misal: kopi, susu, cup, sedotan, kain, benang).</li>
@@ -742,13 +742,13 @@
                         <div class="bg-white p-3.5 rounded-lg border border-amber-200">
                             <strong class="text-slate-900 block mb-1">1. Markup on Cost (Persentase dari Modal HPP)</strong>
                             <p class="mb-2">Menambahkan persentase keuntungan di atas harga modal.</p>
-                            <code class="text-emerald-700 font-bold block bg-slate-50 p-1.5 rounded">Harga Jual = HPP × (1 + % Markup)</code>
+                            <code class="text-emerald-700 font-bold block bg-slate-50 p-1.5 rounded">Harga Jual = HPP &times; (1 + % Markup)</code>
                             <p class="mt-2 text-slate-500">Contoh: HPP Rp 10.000 dengan markup 50% = Harga Jual <strong>Rp 15.000</strong> (Laba Rp 5.000).</p>
                         </div>
                         <div class="bg-white p-3.5 rounded-lg border border-amber-200">
                             <strong class="text-slate-900 block mb-1">2. Margin on Sales (Persentase dari Harga Jual)</strong>
                             <p class="mb-2">Menentukan bahwa sekian persen dari uang penjualan adalah laba bersih.</p>
-                            <code class="text-indigo-700 font-bold block bg-slate-50 p-1.5 rounded">Harga Jual = HPP ÷ (1 - % Margin)</code>
+                            <code class="text-indigo-700 font-bold block bg-slate-50 p-1.5 rounded">Harga Jual = HPP &divide; (1 - % Margin)</code>
                             <p class="mt-2 text-slate-500">Contoh: HPP Rp 10.000 dengan target margin 20% = Harga Jual <strong>Rp 12.500</strong> (karena Rp 2.500 adalah 20% dari Rp 12.500).</p>
                         </div>
                     </div>
@@ -759,7 +759,7 @@
                     <h3 class="font-bold text-slate-900 text-sm">Rumus Break-Even Point (BEP / Titik Impas Modal)</h3>
                     <p>BEP adalah kondisi di mana bisnis tidak mengalami kerugian maupun keuntungan (Laba = 0).</p>
                     <div class="bg-white p-3 rounded-lg border border-slate-300 font-mono text-slate-800">
-                        BEP Unit = Total Biaya Tetap (Overhead) ÷ (Harga Jual per Unit - Biaya Variabel per Unit)
+                        BEP Unit = Total Biaya Tetap (Overhead) &divide; (Harga Jual per Unit - Biaya Variabel per Unit)
                     </div>
                 </div>
             </div>
@@ -1087,12 +1087,12 @@
 
             if (pricingMethod === 'margin_on_sales') {
                 formulaNameElem.innerText = "Rumus: Margin on Sales (Persentase dari Harga Jual)";
-                formulaEqElem.innerText = "Harga Jual = HPP per Unit ÷ (1 - (Target Margin% ÷ 100))";
-                formulaExElem.innerHTML = "  <strong>Contoh:</strong> Jika HPP Rp 10.000 dengan target margin 20%, maka Harga Jual = Rp 10.000 ÷ (1 - 0.20) = <strong>Rp 12.500</strong> (Laba Rp 2.500 adalah 20% dari Rp 12.500).";
+                formulaEqElem.innerText = "Harga Jual = HPP per Unit \u00f7 (1 - (Target Margin% \u00f7 100))";
+                formulaExElem.innerHTML = "  <strong>Contoh:</strong> Jika HPP Rp 10.000 dengan target margin 20%, maka Harga Jual = Rp 10.000 &divide; (1 - 0.20) = <strong>Rp 12.500</strong> (Laba Rp 2.500 adalah 20% dari Rp 12.500).";
             } else {
                 formulaNameElem.innerText = "Rumus: Markup on Cost (Persentase dari Modal HPP)";
-                formulaEqElem.innerText = "Harga Jual = HPP per Unit × (1 + (Markup% ÷ 100))";
-                formulaExElem.innerHTML = "  <strong>Contoh:</strong> Jika HPP Rp 10.000 dengan Markup 50%, maka Harga Jual = Rp 10.000 × 1.50 = <strong>Rp 15.000</strong> (Laba Rp 5.000/unit).";
+                formulaEqElem.innerText = "Harga Jual = HPP per Unit \u00d7 (1 + (Markup% \u00f7 100))";
+                formulaExElem.innerHTML = "  <strong>Contoh:</strong> Jika HPP Rp 10.000 dengan Markup 50%, maka Harga Jual = Rp 10.000 &times; 1.50 = <strong>Rp 15.000</strong> (Laba Rp 5.000/unit).";
             }
 
             // Gather Raw Materials
