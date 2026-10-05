@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator HPP - Goravel Go Framework</title>
+    <title>Kalkulator HPP</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,29 +28,23 @@
     <header class="bg-gradient-to-r from-emerald-700 via-teal-700 to-cyan-800 text-white shadow-lg sticky top-0 z-30 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center font-bold text-xl text-emerald-300 shadow-inner">
-                    H
-                </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-tight leading-none flex items-center gap-2">
-                        Kalkulator HPP Indonesia
-                        <span class="text-[10px] uppercase font-semibold bg-emerald-500/30 text-emerald-200 px-2 py-0.5 rounded-full border border-emerald-400/30">
-                            Goravel {{ .version }}
-                        </span>
+                        Kalkulator HPP Indonesia                        
                     </h1>
-                    <p class="text-xs text-emerald-100/80 mt-0.5">Aplikasi Perhitungan Harga Pokok Penjualan & Penetapan Harga Jual</p>
+                    <p class="text-xs text-emerald-100/80 mt-0.5">Perhitungan Harga Pokok Penjualan, Margin Keuntungan & Titik Impas (BEP)</p>
                 </div>
             </div>
 
             <!-- Quick Preset Selector in Header -->
             <div class="flex items-center space-x-2">
-                <label for="headerPreset" class="text-xs text-emerald-100 hidden md:inline">Contoh Cepat:</label>
-                <select id="headerPreset" onchange="loadPresetById(this.value)" class="text-xs bg-emerald-800/80 hover:bg-emerald-800 text-white border border-emerald-500/50 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
+                <label for="headerPreset" class="text-xs text-emerald-100 hidden md:inline font-medium">Contoh Cepat:</label>
+                <select id="headerPreset" onchange="handlePresetSelect(this.value)" class="text-xs bg-emerald-800/80 hover:bg-emerald-800 text-white border border-emerald-500/50 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
                     <option value="">-- Pilih Template Bisnis --</option>
-                    <option value="kopi-susu-aren">☕ Es Kopi Susu (Kuliner)</option>
-                    <option value="kaos-sablon-distro">👕 Kaos Sablon Distro (Konveksi)</option>
-                    <option value="fudgy-brownies">🍰 Fudgy Brownies (Bakery)</option>
-                    <option value="retail-sembako">🏪 Toko Sembako (Retail/Dagang)</option>
+                    <option value="kopi-susu-aren">Es Kopi Susu (Kuliner)</option>
+                    <option value="kaos-sablon-distro">Kaos Sablon Distro (Konveksi)</option>
+                    <option value="fudgy-brownies">Fudgy Brownies (Bakery)</option>
+                    <option value="retail-sembako">Toko Sembako (Retail/Dagang)</option>
                 </select>
             </div>
         </div>
@@ -86,7 +80,8 @@
                     <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                     Salin Ringkasan
                 </button>
-                <button onclick="resetCurrentForm()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold rounded-lg border border-rose-200 shadow-sm transition">
+                <button onclick="resetCurrentForm()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold rounded-lg border border-rose-200 shadow-sm transition flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     Reset Form
                 </button>
             </div>
@@ -105,49 +100,77 @@
                     <!-- Basic Product Info Card -->
                     <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                            <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">1</span>
-                                Informasi Produk & Target Batch
-                            </h2>
-                            <span class="text-xs text-slate-400">Parameter Dasar</span>
+                            <div>
+                                <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">1</span>
+                                    Informasi Produk & Target Batch
+                                </h2>
+                                <p class="text-xs text-slate-500 mt-0.5">Tentukan nama produk, target unit hasil produksi, dan strategi penetapan harga.</p>
+                            </div>
+                            <span class="text-[11px] font-mono bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">
+                                HPP = Total Biaya ÷ Unit
+                            </span>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Produk / Menu</label>
-                                <input type="text" id="mProductName" value="Es Kopi Susu Gula Aren (16oz)" placeholder="Contoh: Es Kopi Susu, Kaos Sablon, Roti" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+                                <input type="text" id="mProductName" value="" placeholder="Contoh: Es Kopi Susu Aren, Kaos Sablon, Roti Brownies" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+                                <p class="text-[11px] text-slate-400 mt-1">Nama barang atau menu makanan yang diproduksi</p>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Jumlah Unit yang Dihasilkan (Batch Output)</label>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                    Jumlah Unit yang Dihasilkan (Batch Output)
+                                </label>
                                 <div class="relative">
-                                    <input type="number" id="mProductionUnits" value="100" min="1" step="any" oninput="triggerCalculateManufacture()" class="w-full text-sm px-3 py-2 pr-12 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
-                                    <span class="absolute right-3 top-2 text-xs text-slate-400">Unit/Pcs</span>
+                                    <input type="number" id="mProductionUnits" value="" min="1" step="any" placeholder="Contoh: 100" oninput="triggerCalculateManufacture()" class="w-full text-sm px-3 py-2 pr-12 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition font-medium">
+                                    <span class="absolute right-3 top-2 text-xs font-medium text-slate-400">Unit/Pcs</span>
                                 </div>
+                                <p class="text-[11px] text-slate-400 mt-1">Contoh: 1 resep bahan menghasilkan 100 cup atau 20 loyang</p>
                             </div>
                         </div>
 
-                        <!-- Pricing Strategy Settings -->
-                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/70 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Metode Penetapan Harga Jual</label>
-                                <select id="mPricingMethod" onchange="triggerCalculateManufacture()" class="w-full text-xs font-medium px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 bg-white">
-                                    <option value="markup_on_cost">Markup on Cost (Dari Biaya HPP)</option>
-                                    <option value="margin_on_sales">Margin on Sales (Dari Harga Jual)</option>
-                                </select>
-                                <p class="text-[11px] text-slate-400 mt-1" id="mPricingMethodHint">Markup on Cost: Harga = HPP + (HPP × %)</p>
+                        <!-- Pricing Strategy Settings with Formulas -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/70 space-y-3">
+                            <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                Strategi Penetapan Harga Jual (Pricing Formula)
                             </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Target Persentase Laba (%)</label>
-                                <div class="relative">
-                                    <input type="number" id="mMarkupPercent" value="60" min="0" max="999" step="any" oninput="triggerCalculateManufacture()" class="w-full text-sm px-3 py-2 pr-8 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none transition font-semibold text-emerald-800">
-                                    <span class="absolute right-3 top-2 text-xs font-bold text-slate-400">%</span>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Metode Penetapan Harga</label>
+                                    <select id="mPricingMethod" onchange="triggerCalculateManufacture()" class="w-full text-xs font-medium px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 bg-white cursor-pointer">
+                                        <option value="markup_on_cost">Markup on Cost (Dari Modal HPP)</option>
+                                        <option value="margin_on_sales">Margin on Sales (Dari Harga Jual)</option>
+                                    </select>
                                 </div>
-                                <p class="text-[11px] text-slate-400 mt-1">Keuntungan per unit yang diharapkan</p>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Target Persentase Laba (%)</label>
+                                    <div class="relative">
+                                        <input type="number" id="mMarkupPercent" value="" min="0" max="999" step="any" placeholder="Contoh: 50" oninput="triggerCalculateManufacture()" class="w-full text-sm px-3 py-2 pr-8 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none transition font-semibold text-emerald-800">
+                                        <span class="absolute right-3 top-2 text-xs font-bold text-slate-400">%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Dynamic Formula & Example Explanation -->
+                            <div class="p-3 bg-white rounded-lg border border-slate-200 text-xs space-y-1.5" id="pricingFormulaBox">
+                                <div class="flex items-center gap-1.5 text-emerald-800 font-semibold">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                    <span id="mFormulaName">Rumus: Markup on Cost</span>
+                                </div>
+                                <div class="font-mono text-[11px] text-slate-700 bg-slate-50 p-2 rounded border border-slate-100" id="mFormulaEquation">
+                                    Harga Jual = HPP per Unit × (1 + (Markup% ÷ 100))
+                                </div>
+                                <div class="text-[11px] text-slate-500" id="mFormulaExample">
+                                      <strong>Contoh:</strong> Jika HPP Rp 10.000 dengan Markup 50%, maka Harga Jual = Rp 10.000 × 1.50 = <strong>Rp 15.000</strong> (Laba: Rp 5.000/unit).
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 1. Raw Materials Table -->
+                    <!-- 2. Raw Materials Table -->
                     <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                             <div>
@@ -155,7 +178,7 @@
                                     <span class="w-6 h-6 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-bold">2</span>
                                     Biaya Bahan Baku (Raw Materials)
                                 </h2>
-                                <p class="text-xs text-slate-400 mt-0.5">Semua bahan utama dan pembantu untuk membuat produk</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Semua bahan utama dan bahan pembantu yang habis terpakai dalam 1 batch.</p>
                             </div>
                             <button onclick="addRawMaterialRow()" class="px-2.5 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-700 font-semibold text-xs rounded-lg border border-teal-200 transition flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -163,15 +186,21 @@
                             </button>
                         </div>
 
+                        <!-- Formula Banner -->
+                        <div class="flex items-center justify-between px-3 py-2 bg-teal-50/60 rounded-lg border border-teal-100 text-[11px] text-teal-900">
+                            <span><strong>Rumus:</strong> Subtotal = Kuantitas × Harga Satuan</span>
+                            <span class="text-teal-700 hidden sm:inline">Contoh: 1.2 kg × Rp 180.000 = Rp 216.000</span>
+                        </div>
+
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs">
                                 <thead>
                                     <tr class="text-slate-500 border-b border-slate-200">
-                                        <th class="pb-2 font-semibold">Nama Bahan</th>
+                                        <th class="pb-2 font-semibold">Nama Bahan Baku</th>
                                         <th class="pb-2 font-semibold w-20">Kuantitas</th>
-                                        <th class="pb-2 font-semibold w-16">Satuan</th>
-                                        <th class="pb-2 font-semibold w-28">Harga Satuan (Rp)</th>
-                                        <th class="pb-2 font-semibold w-28 text-right">Subtotal (Rp)</th>
+                                        <th class="pb-2 font-semibold w-20">Satuan</th>
+                                        <th class="pb-2 font-semibold w-36">Harga Satuan (Rp)</th>
+                                        <th class="pb-2 font-semibold w-32 text-right">Subtotal (Rp)</th>
                                         <th class="pb-2 w-8"></th>
                                     </tr>
                                 </thead>
@@ -189,7 +218,7 @@
                         </div>
                     </div>
 
-                    <!-- 2. Direct Labor Table -->
+                    <!-- 3. Direct Labor Table -->
                     <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                             <div>
@@ -197,23 +226,29 @@
                                     <span class="w-6 h-6 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">3</span>
                                     Biaya Tenaga Kerja Langsung (Direct Labor)
                                 </h2>
-                                <p class="text-xs text-slate-400 mt-0.5">Upah pekerja langsung dalam proses produksi</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Upah tenaga kerja yang langsung terlibat dalam pembuatan produk (per jam/hari/pcs).</p>
                             </div>
                             <button onclick="addLaborRow()" class="px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-xs rounded-lg border border-blue-200 transition flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                                Tambah Tenaga Kerja
+                                Tambah Pekerja
                             </button>
+                        </div>
+
+                        <!-- Formula Banner -->
+                        <div class="flex items-center justify-between px-3 py-2 bg-blue-50/60 rounded-lg border border-blue-100 text-[11px] text-blue-900">
+                            <span><strong>Rumus:</strong> Subtotal = Jumlah Pekerja × Tarif Upah × Waktu/Unit</span>
+                            <span class="text-blue-700 hidden sm:inline">Contoh: 1 Barista × Rp 20.000 × 4 jam = Rp 80.000</span>
                         </div>
 
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs">
                                 <thead>
                                     <tr class="text-slate-500 border-b border-slate-200">
-                                        <th class="pb-2 font-semibold">Peran / Karyawan</th>
+                                        <th class="pb-2 font-semibold">Peran / Posisi Kerja</th>
                                         <th class="pb-2 font-semibold w-16">Pekerja</th>
-                                        <th class="pb-2 font-semibold w-24">Tarif (Rp)</th>
+                                        <th class="pb-2 font-semibold w-32">Tarif Upah (Rp)</th>
                                         <th class="pb-2 font-semibold w-20">Jam/Hari/Pcs</th>
-                                        <th class="pb-2 font-semibold w-28 text-right">Subtotal (Rp)</th>
+                                        <th class="pb-2 font-semibold w-32 text-right">Subtotal (Rp)</th>
                                         <th class="pb-2 w-8"></th>
                                     </tr>
                                 </thead>
@@ -231,20 +266,26 @@
                         </div>
                     </div>
 
-                    <!-- 3. Overhead Costs Table -->
+                    <!-- 4. Overhead Costs Table -->
                     <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                             <div>
                                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
                                     <span class="w-6 h-6 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">4</span>
-                                    Biaya Overhead Pabrik / Operasional (BOP)
+                                    Biaya Overhead Pabrik / Usaha (BOP)
                                 </h2>
-                                <p class="text-xs text-slate-400 mt-0.5">Biaya listrik, gas, packaging, sewa proporsional, penyusutan alat</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Biaya tidak langsung: listrik, gas LPG, sewa proporsional, penyusutan alat, perlengkapan.</p>
                             </div>
                             <button onclick="addOverheadRow()" class="px-2.5 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold text-xs rounded-lg border border-purple-200 transition flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                                 Tambah Overhead
                             </button>
+                        </div>
+
+                        <!-- Formula Banner -->
+                        <div class="flex items-center justify-between px-3 py-2 bg-purple-50/60 rounded-lg border border-purple-100 text-[11px] text-purple-900">
+                            <span><strong>Rumus:</strong> Total BOP = ∑ Biaya Listrik + Gas + Sewa + Penyusutan Alat</span>
+                            <span class="text-purple-700 hidden sm:inline">Contoh: Listrik Rp 30.000 + Sewa Rp 45.000</span>
                         </div>
 
                         <div class="overflow-x-auto">
@@ -253,7 +294,7 @@
                                     <tr class="text-slate-500 border-b border-slate-200">
                                         <th class="pb-2 font-semibold">Nama Biaya Overhead</th>
                                         <th class="pb-2 font-semibold w-36">Kategori</th>
-                                        <th class="pb-2 font-semibold w-32 text-right">Nominal Biaya (Rp)</th>
+                                        <th class="pb-2 font-semibold w-36 text-right">Nominal Biaya (Rp)</th>
                                         <th class="pb-2 w-8"></th>
                                     </tr>
                                 </thead>
@@ -276,34 +317,37 @@
                 <div class="lg:col-span-5 space-y-6">
 
                     <!-- Main HPP Result Card -->
-                    <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden border border-slate-700">
+                    <div class="bg-gradient-to-br from-slate-700 to-slate-900 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden border border-slate-700">
                         <div class="absolute -right-6 -bottom-6 w-36 h-36 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-xs uppercase tracking-wider font-semibold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800">
-                                Hasil Perhitungan HPP
+                                Ringkasan HPP Manufaktur & UMKM
                             </span>
-                            <span id="resTimestamp" class="text-[11px] text-slate-400">Hari ini</span>
+                           <!-- <span id="resTimestamp" class="text-[11px] text-slate-400">Hari ini</span> -->
                         </div>
 
-                        <h3 id="resProductName" class="text-lg font-bold text-white mb-4 line-clamp-1">Es Kopi Susu Gula Aren (16oz)</h3>
+                        <h3 id="resProductName" class="text-lg font-bold text-white mb-4 line-clamp-1">Produk Belum Dinamai</h3>
 
-                        <!-- HPP per Unit Highlight -->
+                        <!-- HPP per Unit Highlight with Formula Badge -->
                         <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 mb-4">
-                            <div class="text-xs text-slate-400 font-medium mb-1">HARGA POKOK PENJUALAN (HPP) PER UNIT</div>
-                            <div class="text-3xl font-extrabold text-emerald-400 tracking-tight" id="resHppPerUnit">Rp 0</div>
-                            <div class="text-xs text-slate-400 mt-1">Biaya murni modal produksi per 1 item</div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-slate-400 font-medium">HARGA POKOK PENJUALAN (HPP) PER UNIT</span>
+                                <span class="text-[10px] text-emerald-300 font-mono bg-slate-700/80 px-1.5 py-0.5 rounded">Total Biaya ÷ Unit</span>
+                            </div>
+                            <div class="text-3xl font-extrabold text-emerald-400 tracking-tight mt-1" id="resHppPerUnit">Rp 0</div>
+                            <div class="text-xs text-slate-400 mt-1">Modal bersih yang dikeluarkan untuk memproduksi 1 unit</div>
                         </div>
 
-                        <!-- Selling Price Highlight -->
+                        <!-- Selling Price Highlight with Formula Badge -->
                         <div class="bg-emerald-950/60 rounded-xl p-4 border border-emerald-600/50 mb-5">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs text-emerald-300 font-medium">REKOMENDASI HARGA JUAL</span>
-                                <span id="resMarkupBadge" class="text-[10px] font-bold bg-emerald-500 text-slate-950 px-2 py-0.5 rounded-full">+60% Markup</span>
+                                <span id="resMarkupBadge" class="text-[10px] font-bold bg-emerald-500 text-slate-950 px-2 py-0.5 rounded-full">+0% Markup</span>
                             </div>
                             <div class="text-3xl font-extrabold text-white tracking-tight mt-1" id="resSellingPrice">Rp 0</div>
                             <div class="flex items-center justify-between text-xs text-emerald-200/80 mt-1">
-                                <span>Laba per unit:</span>
+                                <span>Laba per unit: (Harga Jual - HPP)</span>
                                 <span class="font-bold text-emerald-300" id="resProfitPerUnit">Rp 0</span>
                             </div>
                         </div>
@@ -311,13 +355,13 @@
                         <!-- Cost Structure Progress Bar -->
                         <div class="space-y-2 mb-5">
                             <div class="flex justify-between text-xs font-medium">
-                                <span class="text-slate-300">Struktur Komponen Biaya</span>
+                                <span class="text-slate-300">Struktur Komponen Modal</span>
                                 <span class="text-slate-400 text-[11px]">Total: <strong class="text-white" id="resTotalProductionCost">Rp 0</strong></span>
                             </div>
                             <div class="h-3 w-full bg-slate-700 rounded-full overflow-hidden flex">
-                                <div id="barRawMaterial" class="bg-teal-400 transition-all duration-300" style="width: 50%" title="Bahan Baku"></div>
-                                <div id="barLabor" class="bg-blue-400 transition-all duration-300" style="width: 25%" title="Tenaga Kerja"></div>
-                                <div id="barOverhead" class="bg-purple-400 transition-all duration-300" style="width: 25%" title="Overhead"></div>
+                                <div id="barRawMaterial" class="bg-teal-400 transition-all duration-300" style="width: 0%" title="Bahan Baku"></div>
+                                <div id="barLabor" class="bg-blue-400 transition-all duration-300" style="width: 0%" title="Tenaga Kerja"></div>
+                                <div id="barOverhead" class="bg-purple-400 transition-all duration-300" style="width: 0%" title="Overhead"></div>
                             </div>
                             <div class="grid grid-cols-3 gap-1 text-[11px] pt-1">
                                 <div class="flex items-center gap-1.5">
@@ -339,36 +383,41 @@
                         <div class="border-t border-slate-700/80 pt-4 space-y-2 text-xs">
                             <div class="flex justify-between text-slate-300">
                                 <span>Target Output Batch:</span>
-                                <span class="font-semibold text-white" id="resBatchUnits">100 Unit</span>
+                                <span class="font-semibold text-white" id="resBatchUnits">0 Unit</span>
                             </div>
                             <div class="flex justify-between text-slate-300">
-                                <span>Potensi Total Omset (Revenue):</span>
+                                <span>Potensi Total Omset (Harga Jual × Unit):</span>
                                 <span class="font-semibold text-emerald-300" id="resTotalRevenue">Rp 0</span>
                             </div>
                             <div class="flex justify-between text-slate-300">
-                                <span>Potensi Total Laba Bersih:</span>
+                                <span>Potensi Total Laba Bersih (Laba/Unit × Unit):</span>
                                 <span class="font-bold text-white text-sm" id="resTotalProfit">Rp 0</span>
                             </div>
                             <div class="flex justify-between text-slate-300">
-                                <span>Net Profit Margin:</span>
+                                <span>Net Profit Margin (Laba ÷ Omset × 100%):</span>
                                 <span class="font-semibold text-emerald-400" id="resMarginPercent">0%</span>
                             </div>
                         </div>
 
-                        <!-- Break-Even Point (BEP) Card -->
+                        <!-- Break-Even Point (BEP) Card with Formula -->
                         <div class="mt-5 bg-slate-800/90 rounded-xl p-3.5 border border-slate-700">
-                            <div class="text-xs font-semibold text-amber-300 flex items-center gap-1.5 mb-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                                Analisis Titik Impas (Break-Even Point)
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="text-xs font-semibold text-amber-300 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                                    Titik Impas (Break-Even Point / BEP)
+                                </div>
+                                <span class="text-[10px] text-slate-400 font-mono">BOP ÷ Margin Kontribusi</span>
                             </div>
                             <div class="grid grid-cols-2 gap-2 text-xs">
                                 <div>
                                     <span class="text-slate-400 text-[11px]">BEP Unit (Minimal Terjual):</span>
                                     <div class="font-bold text-white text-sm mt-0.5" id="resBepUnits">0 Unit</div>
+                                    <span class="text-[10px] text-slate-400">Untuk menutupi modal</span>
                                 </div>
                                 <div>
                                     <span class="text-slate-400 text-[11px]">BEP Rupiah (Omset Balik Modal):</span>
                                     <div class="font-bold text-white text-sm mt-0.5" id="resBepRevenue">Rp 0</div>
+                                    <span class="text-[10px] text-slate-400">BEP Unit × Harga Jual</span>
                                 </div>
                             </div>
                         </div>
@@ -376,22 +425,22 @@
 
                     <!-- Quick Summary Details Table for Print & Export -->
                     <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-3">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600">Ringkasan Biaya Murni</h4>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600">Rincian Komponen Biaya Produksi</h4>
                         <div class="space-y-2 text-xs divide-y divide-slate-100">
                             <div class="flex justify-between pt-1">
-                                <span class="text-slate-500">Biaya Bahan Baku:</span>
+                                <span class="text-slate-500">1. Biaya Bahan Baku:</span>
                                 <span class="font-semibold text-slate-800" id="sumRawMaterial">Rp 0</span>
                             </div>
                             <div class="flex justify-between pt-1.5">
-                                <span class="text-slate-500">Biaya Tenaga Kerja:</span>
+                                <span class="text-slate-500">2. Biaya Tenaga Kerja:</span>
                                 <span class="font-semibold text-slate-800" id="sumLabor">Rp 0</span>
                             </div>
                             <div class="flex justify-between pt-1.5">
-                                <span class="text-slate-500">Biaya Overhead (BOP):</span>
+                                <span class="text-slate-500">3. Biaya Overhead (BOP):</span>
                                 <span class="font-semibold text-slate-800" id="sumOverhead">Rp 0</span>
                             </div>
                             <div class="flex justify-between pt-1.5 font-bold text-slate-900 text-sm">
-                                <span>Total Modal Produksi:</span>
+                                <span>Total Modal Produksi (1 + 2 + 3):</span>
                                 <span class="text-emerald-700" id="sumTotalCost">Rp 0</span>
                             </div>
                         </div>
@@ -410,61 +459,85 @@
                 <div class="lg:col-span-7 space-y-6">
                     <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                            <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                                <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">1</span>
-                                Data Persediaan & Pembelian (Standar Akuntansi Dagang)
-                            </h2>
-                            <span class="text-xs text-slate-400">Periode Laporan</span>
+                            <div>
+                                <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">1</span>
+                                    Data Persediaan & Pembelian (Standar Akuntansi Dagang)
+                                </h2>
+                                <p class="text-xs text-slate-500 mt-0.5">Catat saldo stok awal, kulakan barang dagangan, dan stok opname akhir.</p>
+                            </div>
+                            <span class="text-[11px] font-mono bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded-full">
+                                HPP = Siap Dijual - Stok Akhir
+                            </span>
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Laporan / Periode Usaha</label>
-                            <input type="text" id="rPeriodName" value="Laporan Operasional Bulan Oktober 2026" placeholder="Contoh: Toko Sembako Berkah - Bulan Oktober 2026" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <input type="text" id="rPeriodName" value="" placeholder="Contoh: Laporan Operasional Bulan Oktober 2026" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <p class="text-[11px] text-slate-400 mt-1">Identitas periode pembukuan usaha dagang/toko</p>
                         </div>
 
-                        <!-- Inventory & Purchases Grid -->
+                        <!-- Inventory & Purchases Grid with Formatter -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">
                                     Persediaan Awal Barang Dagang (Rp)
                                 </label>
-                                <input type="number" id="rBeginningInventory" value="35000000" min="0" step="any" oninput="triggerCalculateRetail()" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
-                                <p class="text-[11px] text-slate-400 mt-1">Nilai stok awal di awal periode</p>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-xs font-semibold text-slate-400">Rp</span>
+                                    <input type="text" inputmode="numeric" id="rBeginningInventory" value="" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateRetail();" class="w-full text-sm pl-9 pr-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">  Nilai rupiah stok barang di awal periode</p>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">
                                     Pembelian Barang Dagangan (Rp)
                                 </label>
-                                <input type="number" id="rPurchases" value="55000000" min="0" step="any" oninput="triggerCalculateRetail()" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
-                                <p class="text-[11px] text-slate-400 mt-1">Total pembelian kulakan selama periode</p>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-xs font-semibold text-slate-400">Rp</span>
+                                    <input type="text" inputmode="numeric" id="rPurchases" value="" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateRetail();" class="w-full text-sm pl-9 pr-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">  Total belanja kulakan barang selama periode</p>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">
                                     (+) Ongkos Angkut Pembelian / Ekspedisi (Rp)
                                 </label>
-                                <input type="number" id="rFreightIn" value="1500000" min="0" step="any" oninput="triggerCalculateRetail()" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
-                                <p class="text-[11px] text-slate-400 mt-1">Biaya pengiriman barang dari supplier</p>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-xs font-semibold text-slate-400">Rp</span>
+                                    <input type="text" inputmode="numeric" id="rFreightIn" value="" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateRetail();" class="w-full text-sm pl-9 pr-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">  Biaya pengiriman barang dari distributor/supplier</p>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">
                                     (-) Retur Pembelian & Pengurangan Harga (Rp)
                                 </label>
-                                <input type="number" id="rPurchaseReturns" value="750000" min="0" step="any" oninput="triggerCalculateRetail()" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
-                                <p class="text-[11px] text-slate-400 mt-1">Barang rusak/cacat dikembalikan ke supplier</p>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-xs font-semibold text-slate-400">Rp</span>
+                                    <input type="text" inputmode="numeric" id="rPurchaseReturns" value="" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateRetail();" class="w-full text-sm pl-9 pr-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">  Barang rusak/cacat yang dikembalikan ke supplier</p>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">
                                     (-) Potongan / Diskon Pembelian (Rp)
                                 </label>
-                                <input type="number" id="rPurchaseDiscounts" value="850000" min="0" step="any" oninput="triggerCalculateRetail()" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
-                                <p class="text-[11px] text-slate-400 mt-1">Diskon pembayaran tunai/promo supplier</p>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-xs font-semibold text-slate-400">Rp</span>
+                                    <input type="text" inputmode="numeric" id="rPurchaseDiscounts" value="" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateRetail();" class="w-full text-sm pl-9 pr-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">  Potongan harga atau diskon tunai dari supplier</p>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1 text-rose-700">
                                     (-) Persediaan Akhir Barang Dagang (Rp)
                                 </label>
-                                <input type="number" id="rEndingInventory" value="32000000" min="0" step="any" oninput="triggerCalculateRetail()" class="w-full text-sm px-3 py-2 rounded-lg border border-rose-300 bg-rose-50/30 focus:ring-2 focus:ring-rose-500 outline-none font-medium">
-                                <p class="text-[11px] text-slate-400 mt-1">Nilai stok sisa fisik di akhir periode (Stock Opname)</p>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-xs font-semibold text-rose-400">Rp</span>
+                                    <input type="text" inputmode="numeric" id="rEndingInventory" value="" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateRetail();" class="w-full text-sm pl-9 pr-3 py-2 rounded-lg border border-rose-300 bg-rose-50/30 focus:ring-2 focus:ring-rose-500 outline-none font-medium">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">  Nilai sisa fisik barang di akhir periode (Stock Opname)</p>
                             </div>
                         </div>
                     </div>
@@ -472,26 +545,42 @@
                     <!-- Sales & Operating Expenses Card -->
                     <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                            <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">2</span>
-                                Penjualan & Biaya Operasional Toko
-                            </h2>
-                            <span class="text-xs text-slate-400">Analisis Laba/Rugi</span>
+                            <div>
+                                <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">2</span>
+                                    Penjualan & Biaya Operasional Toko
+                                </h2>
+                                <p class="text-xs text-slate-500 mt-0.5">Analisis Laba Kotor (Gross Profit) dan Laba Bersih Toko (Net Profit).</p>
+                            </div>
+                            <span class="text-[11px] font-mono bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">
+                                Laba Bersih = Laba Kotor - Beban
+                            </span>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">Penjualan Kotor (Rp)</label>
-                                <input type="number" id="rTotalSales" value="74000000" min="0" step="any" oninput="triggerCalculateRetail()" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none font-semibold text-slate-800">
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-xs font-semibold text-slate-400">Rp</span>
+                                    <input type="text" inputmode="numeric" id="rTotalSales" value="" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateRetail();" class="w-full text-sm pl-9 pr-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none font-semibold text-slate-800">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">Total seluruh struk penjualan</p>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Retur Penjualan (Rp)</label>
-                                <input type="number" id="rSalesReturns" value="400000" min="0" step="any" oninput="triggerCalculateRetail()" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">(-) Retur Penjualan (Rp)</label>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-xs font-semibold text-slate-400">Rp</span>
+                                    <input type="text" inputmode="numeric" id="rSalesReturns" value="" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateRetail();" class="w-full text-sm pl-9 pr-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">Pengembalian barang oleh pembeli</p>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">Beban Operasional Toko (Rp)</label>
-                                <input type="number" id="rOperatingExpenses" value="6200000" min="0" step="any" oninput="triggerCalculateRetail()" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none">
-                                <p class="text-[11px] text-slate-400 mt-1">Gaji karyawan, listrik, sewa kios</p>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-xs font-semibold text-slate-400">Rp</span>
+                                    <input type="text" inputmode="numeric" id="rOperatingExpenses" value="" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateRetail();" class="w-full text-sm pl-9 pr-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">Gaji karyawan toko, listrik, sewa kios</p>
                             </div>
                         </div>
                     </div>
@@ -499,18 +588,21 @@
 
                 <!-- Right Column: Retail Results Dashboard (5 cols) -->
                 <div class="lg:col-span-5 space-y-6">
-                    <div class="bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-900 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden border border-indigo-900/60">
+                    <div class="bg-gradient-to-br from-indigo-950 to-slate-700 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden border border-indigo-900/60">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-xs uppercase tracking-wider font-semibold text-indigo-300 bg-indigo-950/80 px-2.5 py-1 rounded-md border border-indigo-800">
                                 Ringkasan HPP Usaha Dagang
                             </span>
-                            <span id="retailResTimestamp" class="text-[11px] text-slate-400">Hari ini</span>
+                            <!-- <span id="retailResTimestamp" class="text-[11px] text-slate-400">Hari ini</span> -->
                         </div>
 
-                        <!-- Big HPP Total Card -->
+                        <!-- Big HPP Total Card with Formula -->
                         <div class="bg-indigo-900/40 rounded-xl p-4 border border-indigo-700/50 mb-4">
-                            <div class="text-xs text-indigo-200 font-medium mb-1">TOTAL HARGA POKOK PENJUALAN (HPP)</div>
-                            <div class="text-3xl font-extrabold text-amber-300 tracking-tight" id="resRetailHpp">Rp 0</div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-indigo-200 font-medium">TOTAL HARGA POKOK PENJUALAN (HPP)</span>
+                                <span class="text-[10px] text-amber-300 font-mono bg-indigo-950/80 px-1.5 py-0.5 rounded">Siap Jual - Stok Akhir</span>
+                            </div>
+                            <div class="text-3xl font-extrabold text-amber-300 tracking-tight mt-1" id="resRetailHpp">Rp 0</div>
                             <div class="text-xs text-indigo-200/80 mt-1">Persediaan Awal + Pembelian Bersih - Persediaan Akhir</div>
                         </div>
 
@@ -519,28 +611,36 @@
                             <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700">
                                 <span class="text-slate-400 text-[11px]">Penjualan Bersih:</span>
                                 <div class="text-base font-bold text-white mt-0.5" id="resRetailNetSales">Rp 0</div>
+                                <span class="text-[10px] text-slate-400">Penjualan - Retur</span>
                             </div>
                             <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700">
                                 <span class="text-slate-400 text-[11px]">Barang Siap Dijual:</span>
                                 <div class="text-base font-bold text-white mt-0.5" id="resRetailGoodsAvailable">Rp 0</div>
+                                <span class="text-[10px] text-slate-400">Stok Awal + Pembelian Bersih</span>
                             </div>
                         </div>
 
-                        <!-- Gross Profit & Net Profit Highlight -->
+                        <!-- Gross Profit & Net Profit Highlight with Formulas -->
                         <div class="bg-slate-800/90 rounded-xl p-4 border border-slate-700 space-y-3 mb-4">
                             <div class="flex justify-between items-center text-xs">
-                                <span class="text-slate-300">Laba Kotor (Gross Profit):</span>
+                                <div>
+                                    <span class="text-slate-300 block">Laba Kotor (Gross Profit):</span>
+                                    <span class="text-[10px] text-slate-400">Penjualan Bersih - Total HPP</span>
+                                </div>
                                 <div class="text-right">
                                     <span class="font-bold text-emerald-400 text-sm" id="resRetailGrossProfit">Rp 0</span>
-                                    <span class="text-[10px] text-emerald-300 block" id="resRetailGrossMargin">(0%)</span>
+                                    <span class="text-[10px] text-emerald-300 block" id="resRetailGrossMargin">(0% Margin)</span>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center text-xs border-t border-slate-700 pt-2">
-                                <span class="text-slate-300">Beban Operasional:</span>
+                                <span class="text-slate-300">Beban Operasional Toko:</span>
                                 <span class="font-semibold text-rose-300 text-xs" id="resRetailExpenses">Rp 0</span>
                             </div>
                             <div class="flex justify-between items-center text-sm border-t border-slate-700 pt-2 font-bold">
-                                <span class="text-white">Laba Bersih Usaha (Net Profit):</span>
+                                <div>
+                                    <span class="text-white block">Laba Bersih Usaha (Net Profit):</span>
+                                    <span class="text-[10px] text-slate-400 font-normal">Laba Kotor - Beban Operasional</span>
+                                </div>
                                 <div class="text-right">
                                     <span class="text-emerald-300 text-base" id="resRetailNetProfit">Rp 0</span>
                                     <span class="text-[10px] text-emerald-400 block font-normal" id="resRetailNetMargin">Margin: 0%</span>
@@ -550,9 +650,12 @@
 
                         <!-- Step-by-Step Accounting Calculation View -->
                         <div class="border-t border-slate-700/80 pt-4 text-xs space-y-1.5 text-slate-300">
-                            <div class="font-semibold text-white mb-2">Rincian Perhitungan Akuntansi:</div>
+                            <div class="font-semibold text-white mb-2 flex items-center justify-between">
+                                <span>Alur Perhitungan Laporan HPP:</span>
+                                <span class="text-[10px] text-indigo-300">Standar Akuntansi</span>
+                            </div>
                             <div class="flex justify-between">
-                                <span>Persediaan Awal:</span>
+                                <span>Persediaan Awal Barang:</span>
                                 <span id="dtlBegInv">Rp 0</span>
                             </div>
                             <div class="flex justify-between">
@@ -564,7 +667,7 @@
                                 <span id="dtlGoodsAvail">Rp 0</span>
                             </div>
                             <div class="flex justify-between text-rose-300">
-                                <span>(-) Persediaan Akhir:</span>
+                                <span>(-) Persediaan Akhir Barang:</span>
                                 <span id="dtlEndInv">Rp 0</span>
                             </div>
                             <div class="flex justify-between font-bold text-amber-300 border-t border-slate-700 pt-1">
@@ -583,7 +686,7 @@
         <div id="sectionGuide" class="space-y-6 hidden">
             <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-6">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-900">Panduan Lengkap Menghitung HPP (Harga Pokok Penjualan)</h2>
+                    <h2 class="text-xl font-bold text-slate-900">Panduan Lengkap & Rumus Perhitungan HPP</h2>
                     <p class="text-sm text-slate-500 mt-1">Pedoman praktis dan rumus standar bagi pelaku UMKM, Manufaktur, Kuliner, dan Toko Retail di Indonesia.</p>
                 </div>
 
@@ -595,16 +698,16 @@
                             <h3 class="font-bold text-emerald-900 text-base">HPP Manufaktur & Kuliner (F&B)</h3>
                         </div>
                         <p class="text-xs text-emerald-950/80 leading-relaxed">
-                            Bagi usaha yang memproduksi sendiri barang (membuat makanan, kue, pakaian, kerajinan, dsb.), biaya produksi terdiri dari 3 elemen utama:
+                            Bagi usaha yang memproduksi sendiri barang (membuat makanan, kopi, kue, pakaian, kerajinan, dsb.), biaya produksi terdiri dari 3 elemen utama:
                         </p>
                         <div class="bg-white p-3 rounded-lg border border-emerald-200 font-mono text-xs text-emerald-800 space-y-1">
-                            <div><strong>Total Biaya Produksi</strong> = Biaya Bahan Baku + Biaya Tenaga Kerja Langsung + Biaya Overhead (BOP)</div>
-                            <div><strong>HPP per Unit</strong> = Total Biaya Produksi / Jumlah Unit Dihasilkan</div>
+                            <div><strong>Total Biaya Produksi</strong> = Bahan Baku + Tenaga Kerja + Overhead (BOP)</div>
+                            <div><strong>HPP per Unit</strong> = Total Biaya Produksi ÷ Jumlah Unit Dihasilkan</div>
                         </div>
                         <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
-                            <li><strong>Bahan Baku:</strong> bahan habis pakai untuk produk (misal: kopi, susu, cup sedotan, kain, benang).</li>
+                            <li><strong>Bahan Baku:</strong> bahan habis pakai untuk produk (misal: kopi, susu, cup, sedotan, kain, benang).</li>
                             <li><strong>Tenaga Kerja:</strong> upah barista, koki, penjahit, operator produksi per batch.</li>
-                            <li><strong>Overhead (BOP):</strong> listrik mesin, gas LPG, sewa proporsional, penyusutan alat, kantong kresek.</li>
+                            <li><strong>Overhead (BOP):</strong> listrik mesin, gas LPG, sewa proporsional, penyusutan alat, plastik kresek.</li>
                         </ul>
                     </div>
 
@@ -640,13 +743,13 @@
                             <strong class="text-slate-900 block mb-1">1. Markup on Cost (Persentase dari Modal HPP)</strong>
                             <p class="mb-2">Menambahkan persentase keuntungan di atas harga modal.</p>
                             <code class="text-emerald-700 font-bold block bg-slate-50 p-1.5 rounded">Harga Jual = HPP × (1 + % Markup)</code>
-                            <p class="mt-2 text-slate-500">Contoh: HPP Rp 10.000 dengan markup 50% = Harga Jual <strong>Rp 15.000</strong>.</p>
+                            <p class="mt-2 text-slate-500">Contoh: HPP Rp 10.000 dengan markup 50% = Harga Jual <strong>Rp 15.000</strong> (Laba Rp 5.000).</p>
                         </div>
                         <div class="bg-white p-3.5 rounded-lg border border-amber-200">
                             <strong class="text-slate-900 block mb-1">2. Margin on Sales (Persentase dari Harga Jual)</strong>
                             <p class="mb-2">Menentukan bahwa sekian persen dari uang penjualan adalah laba bersih.</p>
-                            <code class="text-indigo-700 font-bold block bg-slate-50 p-1.5 rounded">Harga Jual = HPP / (1 - % Margin)</code>
-                            <p class="mt-2 text-slate-500">Contoh: HPP Rp 10.000 dengan target margin 50% = Harga Jual <strong>Rp 20.000</strong> (karena Rp 10.000 adalah 50% dari Rp 20.000).</p>
+                            <code class="text-indigo-700 font-bold block bg-slate-50 p-1.5 rounded">Harga Jual = HPP ÷ (1 - % Margin)</code>
+                            <p class="mt-2 text-slate-500">Contoh: HPP Rp 10.000 dengan target margin 20% = Harga Jual <strong>Rp 12.500</strong> (karena Rp 2.500 adalah 20% dari Rp 12.500).</p>
                         </div>
                     </div>
                 </div>
@@ -656,7 +759,7 @@
                     <h3 class="font-bold text-slate-900 text-sm">Rumus Break-Even Point (BEP / Titik Impas Modal)</h3>
                     <p>BEP adalah kondisi di mana bisnis tidak mengalami kerugian maupun keuntungan (Laba = 0).</p>
                     <div class="bg-white p-3 rounded-lg border border-slate-300 font-mono text-slate-800">
-                        BEP Unit = Total Biaya Tetap (Overhead) / (Harga Jual per Unit - Biaya Variabel per Unit)
+                        BEP Unit = Total Biaya Tetap (Overhead) ÷ (Harga Jual per Unit - Biaya Variabel per Unit)
                     </div>
                 </div>
             </div>
@@ -666,10 +769,7 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 no-print">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <div>
-                Dibuat dengan <strong class="text-emerald-600">Goravel Framework</strong> (Go 1.25+) & Tailwind CSS.
-            </div>
+        <div class="max-w-7xl mx-auto px-4 ">
             <div>
                 © 2026 Aplikasi Kalkulator HPP Indonesia. Siap untuk UMKM, Kuliner & Manufaktur.
             </div>
@@ -684,7 +784,7 @@
 
     <!-- Application Script -->
     <script>
-        // Preset Data Cache
+        // Preset Data
         const presets = {
             "kopi-susu-aren": {
                 type: "manufacture",
@@ -770,7 +870,46 @@
             }
         };
 
-        // Format currency helper
+        // ==========================================
+        // THOUSANDS CURRENCY FORMATTER HELPERS
+        // ==========================================
+
+        // Format integer/float to thousands dot string: 180000 -> "180.000"
+        function formatThousand(val) {
+            if (val === null || val === undefined || val === '') return '';
+            const num = typeof val === 'number' ? Math.round(val) : parseInt(val.toString().replace(/\D/g, ''), 10);
+            if (isNaN(num)) return '';
+            return num.toLocaleString('id-ID');
+        }
+
+        // Parse formatted string back to raw number: "180.000" -> 180000
+        function parseThousand(val) {
+            if (val === null || val === undefined || val === '') return 0;
+            if (typeof val === 'number') return isNaN(val) ? 0 : val;
+            const clean = val.toString().replace(/\./g, '').replace(/,/g, '.').replace(/[^\d.-]/g, '');
+            const num = parseFloat(clean);
+            return isNaN(num) ? 0 : num;
+        }
+
+        // Format input live on keystroke with thousand dots
+        function formatCurrencyInput(input) {
+            const cursor = input.selectionStart;
+            const oldLength = input.value.length;
+            const raw = input.value.replace(/\D/g, '');
+            if (!raw) {
+                input.value = '';
+            } else {
+                const num = parseInt(raw, 10);
+                input.value = num.toLocaleString('id-ID');
+            }
+            const newLength = input.value.length;
+            const diff = newLength - oldLength;
+            try {
+                input.setSelectionRange(cursor + diff, cursor + diff);
+            } catch (e) {}
+        }
+
+        // Format Rupiah for display (Rp 180.000)
         function formatRupiah(amount) {
             if (isNaN(amount) || amount === null || amount === undefined) return "Rp 0";
             return "Rp " + Math.round(amount).toLocaleString('id-ID');
@@ -819,22 +958,29 @@
         }
 
         // Dynamic Rows for Raw Materials
-        function addRawMaterialRow(data = { name: '', quantity: 1, unit: 'pcs', pricePerUnit: 0 }) {
+        function addRawMaterialRow(data = { name: '', quantity: '', unit: '', pricePerUnit: '' }) {
             const tbody = document.getElementById('rawMaterialsBody');
             const tr = document.createElement('tr');
             tr.className = "hover:bg-slate-50/70 transition";
+
+            const formattedPrice = data.pricePerUnit ? formatThousand(data.pricePerUnit) : '';
+            const qtyVal = data.quantity !== undefined && data.quantity !== '' ? data.quantity : '';
+
             tr.innerHTML = `
                 <td class="py-2 pr-2">
-                    <input type="text" class="rm-name w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-teal-500 outline-none" value="${data.name || ''}" placeholder="Nama bahan">
+                    <input type="text" class="rm-name w-full text-xs px-2.5 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-teal-500 outline-none" value="${data.name || ''}" placeholder="Contoh: Biji Kopi / Kain Combed">
                 </td>
                 <td class="py-2 pr-2">
-                    <input type="number" min="0" step="any" class="rm-qty w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-teal-500 outline-none" value="${data.quantity || 1}" oninput="triggerCalculateManufacture()">
+                    <input type="number" min="0" step="any" class="rm-qty w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-teal-500 outline-none font-medium" value="${qtyVal}" placeholder="1" oninput="triggerCalculateManufacture()">
                 </td>
                 <td class="py-2 pr-2">
-                    <input type="text" class="rm-unit w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-teal-500 outline-none" value="${data.unit || 'pcs'}" placeholder="kg, pcs, dll">
+                    <input type="text" class="rm-unit w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-teal-500 outline-none" value="${data.unit || ''}" placeholder="kg, pcs, liter">
                 </td>
                 <td class="py-2 pr-2">
-                    <input type="number" min="0" step="any" class="rm-price w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-teal-500 outline-none" value="${data.pricePerUnit || 0}" oninput="triggerCalculateManufacture()">
+                    <div class="relative">
+                        <span class="absolute left-2 top-1.5 text-xs text-slate-400">Rp</span>
+                        <input type="text" inputmode="numeric" class="rm-price w-full text-xs pl-7 pr-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-teal-500 outline-none font-medium" value="${formattedPrice}" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateManufacture();">
+                    </div>
                 </td>
                 <td class="py-2 pr-2 text-right font-semibold text-slate-700 rm-subtotal">
                     Rp 0
@@ -849,22 +995,30 @@
         }
 
         // Dynamic Rows for Labor
-        function addLaborRow(data = { role: '', workerCount: 1, wageRate: 0, hoursOrDays: 1 }) {
+        function addLaborRow(data = { role: '', workerCount: '', wageRate: '', hoursOrDays: '' }) {
             const tbody = document.getElementById('laborBody');
             const tr = document.createElement('tr');
             tr.className = "hover:bg-slate-50/70 transition";
+
+            const formattedRate = data.wageRate ? formatThousand(data.wageRate) : '';
+            const workerVal = data.workerCount !== undefined && data.workerCount !== '' ? data.workerCount : '';
+            const hoursVal = data.hoursOrDays !== undefined && data.hoursOrDays !== '' ? data.hoursOrDays : '';
+
             tr.innerHTML = `
                 <td class="py-2 pr-2">
-                    <input type="text" class="lb-role w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-blue-500 outline-none" value="${data.role || ''}" placeholder="Peran/karyawan">
+                    <input type="text" class="lb-role w-full text-xs px-2.5 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-blue-500 outline-none" value="${data.role || ''}" placeholder="Contoh: Barista / Penjahit / Baker">
                 </td>
                 <td class="py-2 pr-2">
-                    <input type="number" min="1" step="any" class="lb-workers w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-blue-500 outline-none" value="${data.workerCount || 1}" oninput="triggerCalculateManufacture()">
+                    <input type="number" min="1" step="any" class="lb-workers w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-blue-500 outline-none font-medium" value="${workerVal}" placeholder="1" oninput="triggerCalculateManufacture()">
                 </td>
                 <td class="py-2 pr-2">
-                    <input type="number" min="0" step="any" class="lb-rate w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-blue-500 outline-none" value="${data.wageRate || 0}" oninput="triggerCalculateManufacture()" placeholder="Upah">
+                    <div class="relative">
+                        <span class="absolute left-2 top-1.5 text-xs text-slate-400">Rp</span>
+                        <input type="text" inputmode="numeric" class="lb-rate w-full text-xs pl-7 pr-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-blue-500 outline-none font-medium" value="${formattedRate}" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateManufacture();">
+                    </div>
                 </td>
                 <td class="py-2 pr-2">
-                    <input type="number" min="0" step="any" class="lb-hours w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-blue-500 outline-none" value="${data.hoursOrDays || 1}" oninput="triggerCalculateManufacture()" placeholder="Waktu">
+                    <input type="number" min="0" step="any" class="lb-hours w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-blue-500 outline-none font-medium" value="${hoursVal}" placeholder="1" oninput="triggerCalculateManufacture()">
                 </td>
                 <td class="py-2 pr-2 text-right font-semibold text-slate-700 lb-subtotal">
                     Rp 0
@@ -879,19 +1033,25 @@
         }
 
         // Dynamic Rows for Overhead
-        function addOverheadRow(data = { name: '', category: 'Operasional', cost: 0 }) {
+        function addOverheadRow(data = { name: '', category: '', cost: '' }) {
             const tbody = document.getElementById('overheadBody');
             const tr = document.createElement('tr');
             tr.className = "hover:bg-slate-50/70 transition";
+
+            const formattedCost = data.cost ? formatThousand(data.cost) : '';
+
             tr.innerHTML = `
                 <td class="py-2 pr-2">
-                    <input type="text" class="oh-name w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-purple-500 outline-none" value="${data.name || ''}" placeholder="Nama biaya (listrik, kemasan, dll)">
+                    <input type="text" class="oh-name w-full text-xs px-2.5 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-purple-500 outline-none" value="${data.name || ''}" placeholder="Contoh: Listrik Mesin, Gas LPG, Sewa Tempat">
                 </td>
                 <td class="py-2 pr-2">
-                    <input type="text" class="oh-cat w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-purple-500 outline-none" value="${data.category || 'Operasional'}" placeholder="Kategori">
+                    <input type="text" class="oh-cat w-full text-xs px-2.5 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-purple-500 outline-none" value="${data.category || ''}" placeholder="Utilitas / Sewa / Kemasan">
                 </td>
                 <td class="py-2 pr-2">
-                    <input type="number" min="0" step="any" class="oh-cost w-full text-xs px-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-purple-500 outline-none text-right font-medium" value="${data.cost || 0}" oninput="triggerCalculateManufacture()">
+                    <div class="relative">
+                        <span class="absolute left-2 top-1.5 text-xs text-slate-400">Rp</span>
+                        <input type="text" inputmode="numeric" class="oh-cost w-full text-xs pl-7 pr-2 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-purple-500 outline-none text-right font-medium" value="${formattedCost}" placeholder="0" oninput="formatCurrencyInput(this); triggerCalculateManufacture();">
+                    </div>
                 </td>
                 <td class="py-2 text-center">
                     <button type="button" onclick="removeRow(this); triggerCalculateManufacture();" class="text-rose-500 hover:text-rose-700 p-1" title="Hapus baris">
@@ -915,17 +1075,24 @@
         }
 
         async function calculateManufacture() {
-            const productName = document.getElementById('mProductName').value || "Produk";
-            const units = parseFloat(document.getElementById('mProductionUnits').value) || 1;
+            const productName = document.getElementById('mProductName').value.trim() || "Produk Belum Dinamai";
+            const units = parseFloat(document.getElementById('mProductionUnits').value) || 0;
             const markup = parseFloat(document.getElementById('mMarkupPercent').value) || 0;
             const pricingMethod = document.getElementById('mPricingMethod').value;
 
-            // Update Hint
-            const hintElem = document.getElementById('mPricingMethodHint');
+            // Update Formula Text and Examples
+            const formulaNameElem = document.getElementById('mFormulaName');
+            const formulaEqElem = document.getElementById('mFormulaEquation');
+            const formulaExElem = document.getElementById('mFormulaExample');
+
             if (pricingMethod === 'margin_on_sales') {
-                hintElem.innerText = "Margin on Sales: Harga = HPP / (1 - % Margin)";
+                formulaNameElem.innerText = "Rumus: Margin on Sales (Persentase dari Harga Jual)";
+                formulaEqElem.innerText = "Harga Jual = HPP per Unit ÷ (1 - (Target Margin% ÷ 100))";
+                formulaExElem.innerHTML = "  <strong>Contoh:</strong> Jika HPP Rp 10.000 dengan target margin 20%, maka Harga Jual = Rp 10.000 ÷ (1 - 0.20) = <strong>Rp 12.500</strong> (Laba Rp 2.500 adalah 20% dari Rp 12.500).";
             } else {
-                hintElem.innerText = "Markup on Cost: Harga = HPP + (HPP × % Markup)";
+                formulaNameElem.innerText = "Rumus: Markup on Cost (Persentase dari Modal HPP)";
+                formulaEqElem.innerText = "Harga Jual = HPP per Unit × (1 + (Markup% ÷ 100))";
+                formulaExElem.innerHTML = "  <strong>Contoh:</strong> Jika HPP Rp 10.000 dengan Markup 50%, maka Harga Jual = Rp 10.000 × 1.50 = <strong>Rp 15.000</strong> (Laba Rp 5.000/unit).";
             }
 
             // Gather Raw Materials
@@ -936,7 +1103,7 @@
                 const name = row.querySelector('.rm-name')?.value || '';
                 const qty = parseFloat(row.querySelector('.rm-qty')?.value) || 0;
                 const unit = row.querySelector('.rm-unit')?.value || 'pcs';
-                const price = parseFloat(row.querySelector('.rm-price')?.value) || 0;
+                const price = parseThousand(row.querySelector('.rm-price')?.value);
                 const subtotal = qty * price;
                 totalRM += subtotal;
                 const subElem = row.querySelector('.rm-subtotal');
@@ -953,7 +1120,7 @@
             lbRows.forEach(row => {
                 const role = row.querySelector('.lb-role')?.value || '';
                 const workers = parseFloat(row.querySelector('.lb-workers')?.value) || 1;
-                const rate = parseFloat(row.querySelector('.lb-rate')?.value) || 0;
+                const rate = parseThousand(row.querySelector('.lb-rate')?.value);
                 const hours = parseFloat(row.querySelector('.lb-hours')?.value) || 1;
                 const subtotal = workers * rate * hours;
                 totalLabor += subtotal;
@@ -971,12 +1138,39 @@
             ohRows.forEach(row => {
                 const name = row.querySelector('.oh-name')?.value || '';
                 const category = row.querySelector('.oh-cat')?.value || 'Operasional';
-                const cost = parseFloat(row.querySelector('.oh-cost')?.value) || 0;
+                const cost = parseThousand(row.querySelector('.oh-cost')?.value);
                 totalOverhead += cost;
 
                 overheadCosts.push({ name, category, cost });
             });
             document.getElementById('tableTotalOverhead').innerText = formatRupiah(totalOverhead);
+
+            // If production units is not set or 0, render 0 results cleanly
+            if (units <= 0) {
+                renderManufactureResult({
+                    product_name: productName,
+                    production_units: 0,
+                    total_raw_material_cost: totalRM,
+                    total_labor_cost: totalLabor,
+                    total_overhead_cost: totalOverhead,
+                    total_production_cost: totalRM + totalLabor + totalOverhead,
+                    hpp_per_unit: 0,
+                    pricing_method: pricingMethod,
+                    markup_percent: markup,
+                    selling_price_per_unit: 0,
+                    profit_per_unit: 0,
+                    total_revenue: 0,
+                    total_profit: 0,
+                    profit_margin_percent: 0,
+                    raw_material_percentage: 0,
+                    labor_percentage: 0,
+                    overhead_percentage: 0,
+                    break_even_units: 0,
+                    break_even_revenue: 0,
+                    calculated_at: new Date().toLocaleTimeString('id-ID')
+                });
+                return;
+            }
 
             // Prepare API Payload
             const payload = {
@@ -1060,7 +1254,7 @@
             document.getElementById('resProfitPerUnit').innerText = formatRupiah(data.profit_per_unit);
             document.getElementById('resMarkupBadge').innerText = (data.pricing_method === 'margin_on_sales' ? 'Margin ' : '+') + data.markup_percent + '%';
             document.getElementById('resTotalProductionCost').innerText = formatRupiah(data.total_production_cost);
-            document.getElementById('resBatchUnits').innerText = (data.production_units || 1) + " Unit";
+            document.getElementById('resBatchUnits').innerText = (data.production_units || 0) + " Unit";
             document.getElementById('resTotalRevenue').innerText = formatRupiah(data.total_revenue);
             document.getElementById('resTotalProfit').innerText = formatRupiah(data.total_profit);
             document.getElementById('resMarginPercent').innerText = formatDecimal(data.profit_margin_percent, 1) + '%';
@@ -1097,17 +1291,28 @@
         }
 
         async function calculateRetail() {
+            const periodName = document.getElementById('rPeriodName').value.trim() || "Periode Berjalan";
+            const begInv = parseThousand(document.getElementById('rBeginningInventory').value);
+            const purchases = parseThousand(document.getElementById('rPurchases').value);
+            const freight = parseThousand(document.getElementById('rFreightIn').value);
+            const pReturns = parseThousand(document.getElementById('rPurchaseReturns').value);
+            const pDiscounts = parseThousand(document.getElementById('rPurchaseDiscounts').value);
+            const endInv = parseThousand(document.getElementById('rEndingInventory').value);
+            const sales = parseThousand(document.getElementById('rTotalSales').value);
+            const sReturns = parseThousand(document.getElementById('rSalesReturns').value);
+            const expenses = parseThousand(document.getElementById('rOperatingExpenses').value);
+
             const payload = {
-                period_name: document.getElementById('rPeriodName').value || "Periode Berjalan",
-                beginning_inventory: parseFloat(document.getElementById('rBeginningInventory').value) || 0,
-                purchases: parseFloat(document.getElementById('rPurchases').value) || 0,
-                freight_in: parseFloat(document.getElementById('rFreightIn').value) || 0,
-                purchase_returns: parseFloat(document.getElementById('rPurchaseReturns').value) || 0,
-                purchase_discounts: parseFloat(document.getElementById('rPurchaseDiscounts').value) || 0,
-                ending_inventory: parseFloat(document.getElementById('rEndingInventory').value) || 0,
-                total_sales: parseFloat(document.getElementById('rTotalSales').value) || 0,
-                sales_returns: parseFloat(document.getElementById('rSalesReturns').value) || 0,
-                operating_expenses: parseFloat(document.getElementById('rOperatingExpenses').value) || 0
+                period_name: periodName,
+                beginning_inventory: begInv,
+                purchases: purchases,
+                freight_in: freight,
+                purchase_returns: pReturns,
+                purchase_discounts: pDiscounts,
+                ending_inventory: endInv,
+                total_sales: sales,
+                sales_returns: sReturns,
+                operating_expenses: expenses
             };
 
             try {
@@ -1126,29 +1331,29 @@
             }
 
             // Client-side fallback
-            const netPurchases = payload.purchases + payload.freight_in - (payload.purchase_returns + payload.purchase_discounts);
-            const goodsAvail = payload.beginning_inventory + netPurchases;
-            const totalHpp = goodsAvail - payload.ending_inventory;
-            const netSales = payload.total_sales - payload.sales_returns;
+            const netPurchases = purchases + freight - (pReturns + pDiscounts);
+            const goodsAvail = begInv + netPurchases;
+            const totalHpp = goodsAvail - endInv;
+            const netSales = sales - sReturns;
             const grossProfit = netSales - totalHpp;
             const grossMargin = netSales > 0 ? (grossProfit / netSales) * 100 : 0;
-            const netProfit = grossProfit - payload.operating_expenses;
+            const netProfit = grossProfit - expenses;
             const netMargin = netSales > 0 ? (netProfit / netSales) * 100 : 0;
 
             renderRetailResult({
-                period_name: payload.period_name,
-                beginning_inventory: payload.beginning_inventory,
-                gross_purchases: payload.purchases,
-                freight_in: payload.freight_in,
-                purchase_deductions: payload.purchase_returns + payload.purchase_discounts,
+                period_name: periodName,
+                beginning_inventory: begInv,
+                gross_purchases: purchases,
+                freight_in: freight,
+                purchase_deductions: pReturns + pDiscounts,
                 net_purchases: netPurchases,
                 goods_available_for_sale: goodsAvail,
-                ending_inventory: payload.ending_inventory,
+                ending_inventory: endInv,
                 total_hpp: totalHpp,
                 net_sales: netSales,
                 gross_profit: grossProfit,
                 gross_profit_margin_percent: grossMargin,
-                operating_expenses: payload.operating_expenses,
+                operating_expenses: expenses,
                 net_profit: netProfit,
                 net_profit_margin_percent: netMargin,
                 calculated_at: new Date().toLocaleTimeString('id-ID')
@@ -1177,9 +1382,22 @@
             }
         }
 
+        // Quick Preset Dropdown Handler
+        function handlePresetSelect(key) {
+            if (!key || key === "" || !presets[key]) {
+                // If "-- Pilih Template Bisnis --" is selected, trigger reset form!
+                resetCurrentForm();
+                return;
+            }
+            loadPresetById(key);
+        }
+
         // Load Preset By Key
         function loadPresetById(key) {
-            if (!key || !presets[key]) return;
+            if (!key || !presets[key]) {
+                resetCurrentForm();
+                return;
+            }
             const p = presets[key];
 
             if (p.type === 'manufacture') {
@@ -1189,7 +1407,7 @@
                 document.getElementById('mMarkupPercent').value = p.markupPercent;
                 document.getElementById('mPricingMethod').value = p.pricingMethod;
 
-                // Clear & re-populate rows
+                // Clear & re-populate rows with formatted prices
                 document.getElementById('rawMaterialsBody').innerHTML = '';
                 p.rawMaterials.forEach(rm => addRawMaterialRow(rm));
 
@@ -1203,45 +1421,54 @@
             } else if (p.type === 'retail') {
                 switchTab('retail');
                 document.getElementById('rPeriodName').value = p.periodName;
-                document.getElementById('rBeginningInventory').value = p.beginningInventory;
-                document.getElementById('rPurchases').value = p.purchases;
-                document.getElementById('rFreightIn').value = p.freightIn;
-                document.getElementById('rPurchaseReturns').value = p.purchaseReturns;
-                document.getElementById('rPurchaseDiscounts').value = p.purchaseDiscounts;
-                document.getElementById('rEndingInventory').value = p.endingInventory;
-                document.getElementById('rTotalSales').value = p.totalSales;
-                document.getElementById('rSalesReturns').value = p.salesReturns;
-                document.getElementById('rOperatingExpenses').value = p.operatingExpenses;
+                document.getElementById('rBeginningInventory').value = formatThousand(p.beginningInventory);
+                document.getElementById('rPurchases').value = formatThousand(p.purchases);
+                document.getElementById('rFreightIn').value = formatThousand(p.freightIn);
+                document.getElementById('rPurchaseReturns').value = formatThousand(p.purchaseReturns);
+                document.getElementById('rPurchaseDiscounts').value = formatThousand(p.purchaseDiscounts);
+                document.getElementById('rEndingInventory').value = formatThousand(p.endingInventory);
+                document.getElementById('rTotalSales').value = formatThousand(p.totalSales);
+                document.getElementById('rSalesReturns').value = formatThousand(p.salesReturns);
+                document.getElementById('rOperatingExpenses').value = formatThousand(p.operatingExpenses);
 
                 triggerCalculateRetail();
             }
         }
 
-        // Reset Current Active Form
+        // Reset Current Active Form - Clears all textboxes to empty so placeholders are visible
         function resetCurrentForm() {
+            // Also synchronize header dropdown to default
+            const headerSelect = document.getElementById('headerPreset');
+            if (headerSelect) headerSelect.value = "";
+
             if (!document.getElementById('sectionManufacture').classList.contains('hidden')) {
-                document.getElementById('mProductName').value = 'Produk Baru';
-                document.getElementById('mProductionUnits').value = 1;
-                document.getElementById('mMarkupPercent').value = 30;
+                document.getElementById('mProductName').value = '';
+                document.getElementById('mProductionUnits').value = '';
+                document.getElementById('mMarkupPercent').value = '';
                 document.getElementById('mPricingMethod').value = 'markup_on_cost';
+
                 document.getElementById('rawMaterialsBody').innerHTML = '';
                 document.getElementById('laborBody').innerHTML = '';
                 document.getElementById('overheadBody').innerHTML = '';
+
+                // Add 1 empty row each with placeholders visible
                 addRawMaterialRow();
                 addLaborRow();
                 addOverheadRow();
+
                 triggerCalculateManufacture();
             } else if (!document.getElementById('sectionRetail').classList.contains('hidden')) {
-                document.getElementById('rPeriodName').value = 'Laporan Baru';
-                document.getElementById('rBeginningInventory').value = 0;
-                document.getElementById('rPurchases').value = 0;
-                document.getElementById('rFreightIn').value = 0;
-                document.getElementById('rPurchaseReturns').value = 0;
-                document.getElementById('rPurchaseDiscounts').value = 0;
-                document.getElementById('rEndingInventory').value = 0;
-                document.getElementById('rTotalSales').value = 0;
-                document.getElementById('rSalesReturns').value = 0;
-                document.getElementById('rOperatingExpenses').value = 0;
+                document.getElementById('rPeriodName').value = '';
+                document.getElementById('rBeginningInventory').value = '';
+                document.getElementById('rPurchases').value = '';
+                document.getElementById('rFreightIn').value = '';
+                document.getElementById('rPurchaseReturns').value = '';
+                document.getElementById('rPurchaseDiscounts').value = '';
+                document.getElementById('rEndingInventory').value = '';
+                document.getElementById('rTotalSales').value = '';
+                document.getElementById('rSalesReturns').value = '';
+                document.getElementById('rOperatingExpenses').value = '';
+
                 triggerCalculateRetail();
             }
         }
@@ -1262,36 +1489,36 @@
                 const totalProf = document.getElementById('resTotalProfit').innerText;
                 const bepUnits = document.getElementById('resBepUnits').innerText;
 
-                summaryText = `📊 RINGKASAN HPP MANUFAKTUR & PRODUKSI
+                summaryText = `RINGKASAN HPP MANUFAKTUR & PRODUKSI
 Produk: ${prod}
 Batch Output: ${units}
 Total Biaya Modal: ${totalCost}
 
-🏷️ HPP per Unit: ${hpp}
-💰 Rekomendasi Harga Jual: ${price}
-📈 Laba per Unit: ${profit}
+HPP per Unit: ${hpp}
+Rekomendasi Harga Jual: ${price}
+Laba per Unit: ${profit}
 
-📈 Proyeksi Keuangan:
+Proyeksi Keuangan:
 - Potensi Total Omset: ${totalRev}
 - Potensi Total Laba: ${totalProf}
 - BEP (Titik Impas): ${bepUnits}
 
-Dihitung via Kalkulator HPP Goravel`;
+Dihitung via Kalkulator HPP`;
             } else {
-                const period = document.getElementById('rPeriodName').value;
+                const period = document.getElementById('rPeriodName').value || "Periode Berjalan";
                 const hpp = document.getElementById('resRetailHpp').innerText;
                 const sales = document.getElementById('resRetailNetSales').innerText;
                 const gross = document.getElementById('resRetailGrossProfit').innerText;
                 const net = document.getElementById('resRetailNetProfit').innerText;
 
-                summaryText = `📊 RINGKASAN HPP USAHA DAGANG / RETAIL
+                summaryText = `RINGKASAN HPP USAHA DAGANG / RETAIL
 Periode: ${period}
 Total HPP: ${hpp}
 Penjualan Bersih: ${sales}
 Laba Kotor: ${gross}
 Laba Bersih Toko: ${net}
 
-Dihitung via Kalkulator HPP Goravel`;
+Dihitung via Kalkulator HPP`;
             }
 
             navigator.clipboard.writeText(summaryText).then(() => {
@@ -1307,8 +1534,8 @@ Dihitung via Kalkulator HPP Goravel`;
             const printDate = document.getElementById('printDate');
             if (printDate) printDate.innerText = `Dicetak pada: ${dateStr}`;
 
-            // Load default coffee preset
-            loadPresetById('kopi-susu-aren');
+            // Initialize with empty clean form displaying placeholders
+            resetCurrentForm();
         });
     </script>
 </body>
