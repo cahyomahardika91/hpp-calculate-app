@@ -1,8 +1,41 @@
-.idea
-.vscode
-.DS_Store
+# Environment configuration (Contains sensitive database/API keys)
 .env
-.env.*
-!.env.example
-storage
-tmp
+
+# Go Binaries and Build Artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+main
+goravel
+
+# Go Test and Coverage outputs
+*.test
+*.out
+*.coverprofile
+coverage.*
+profile.cov
+
+# Go Workspace files
+go.work
+go.work.sum
+
+# Goravel / Laravel Framework specific directories
+/storage/logs/
+/storage/framework/
+/storage/app/public/
+/public/storage
+
+# IDEs and Text Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
