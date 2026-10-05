@@ -14,6 +14,52 @@
 
 English | [中文](./README_zh.md)
 
+## HPP Calculator (Harga Pokok Penjualan)
+
+This repository contains an interactive **HPP (Cost of Goods Sold / COGS) Calculator** application built with the **Goravel Framework** (Go 1.25+) and Tailwind CSS. It supports manufacturing/culinary production cost calculation, retail inventory cost accounting, pricing strategy (Markup on Cost vs Margin on Sales), and Break-Even Point (BEP) analysis.
+
+### Running Locally
+
+To start the Goravel HTTP server locally:
+
+```bash
+go run .
+```
+
+Then visit [http://localhost:3000](http://localhost:3000) or [http://localhost:3000/kalkulator-hpp](http://localhost:3000/kalkulator-hpp) in your browser.
+
+### Exporting Standalone Static Web App
+
+To deploy the application to static hosting platforms such as **GitHub Pages**, **Vercel**, or **Cloudflare Pages** (without running a backend server), you can export the master view template into standalone static HTML files using the custom Artisan command:
+
+```bash
+go run . artisan export:static
+```
+
+#### What this command does:
+- **Reads Master Template**: Sources the UI directly from `resources/views/hpp.tmpl`.
+- **Replaces Runtime Variables**: Substitutes dynamic framework placeholders (e.g., `{{ .version }}`) with static version strings.
+- **Encoding & Symbol Sanitization**: Replaces special symbols and math operators with standard HTML entities (`&copy;`, `&divide;`, `&times;`, `&sum;`) and strips UTF-8 BOM headers to guarantee clean rendering without encoding artifacts across all browsers and operating systems.
+- **Synchronized Dual Output**: Generates clean static files at:
+  - `public/index.html` — for Vercel, Docker, or static file servers.
+  - `docs/index.html` — for 1-click **GitHub Pages** deployment via the `/docs` folder.
+
+#### Deploying to GitHub Pages:
+1. Run `go run . artisan export:static`
+2. Commit and push your changes to GitHub:
+   ```bash
+   git add .
+   git commit -m "build: update static hpp calculator"
+   git push
+   ```
+3. In your GitHub repository:
+   - Go to **Settings** &rarr; **Pages**.
+   - Under **Build and deployment**, choose **Deploy from a branch**.
+   - Select Branch: `main`, Folder: `/docs`, then click **Save**.
+   - Alternatively, select **GitHub Actions** to use the pre-configured workflow in `.github/workflows/deploy-pages.yml`.
+
+---
+
 ## About Goravel
 
 Goravel is a full-featured, scalable web application framework that provides a starting scaffold to help Gophers quickly build their applications.
